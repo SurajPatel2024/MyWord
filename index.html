@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unit test class 4</title>
+<style>
+  body{font-family:Arial, sans-serif;background:#f2f2f2;padding:20px;}
+  .page{background:#fff;max-width:950px;margin:auto;padding:20px;}
+  h2,h3{text-align:center;margin:4px 0;}
+  table{width:100%;border-collapse:collapse;margin-top:15px;}
+  th,td{border:1px solid #000;padding:6px;text-align:center;}
+  th{background:#eee;}
+  td.edit{background:#fffbe6;}
+  .print-btn{text-align:center;margin-top:15px;}
+  button{padding:8px 18px;font-size:16px;}
+  @media print{
+    body{background:#fff;padding:0;}
+    .print-btn{display:none;}
+    .page{box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <h2 contenteditable="true">KSP Public School</h2>
+  <h3 contenteditable="true">Unit Test-II (2025–26)</h3>
+  <h3 contenteditable="true">Class: 4th &nbsp; Section: A</h3>
+
+  <table id="marksTable">
+    <tr>
+      <th>Roll No</th>
+      <th>Student Name</th>
+      <th>Hindi</th>
+      <th>English</th>
+      <th>Maths</th>
+      <th>EVS</th>
+      <th>GK</th>
+      <th>Comp</th>
+      <th>Drawing</th>
+      <th>Total</th>
+    </tr>
+
+    <!-- ROW TEMPLATE -->
+    <!-- Only marks editable, total auto -->
+
+    <tr>
+      <td>1</td><td>Anand Kumar</td>
+      <td class="edit" contenteditable>8</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>8</td>
+      <td class="total">55</td>
+    </tr>
+    <tr>
+      <td>2</td><td>Aradhya Singh</td>
+      <td class="edit" contenteditable>10</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>10</td><td class="edit" contenteditable>9</td>
+      <td class="total">56</td>
+    </tr>
+    <tr>
+      <td>3</td><td>Arpita Rai</td>
+      <td class="edit" contenteditable>6</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>6</td>
+      <td class="total">35</td>
+    </tr>
+    <tr>
+      <td>4</td><td>Ashish Kumar</td>
+      <td class="edit" contenteditable>7</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>8</td>
+      <td class="total">55</td>
+    </tr>
+    <tr>
+      <td>5</td><td>Ayush Gupta</td>
+      <td class="edit" contenteditable>9</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>7</td>
+      <td class="total">49</td>
+    </tr>
+    <tr>
+      <td>6</td><td>Divyanshu Prajapati</td>
+      <td class="edit" contenteditable>7</td><td class="edit" contenteditable>4</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>6</td>
+      <td class="total">43</td>
+    </tr>
+    <tr>
+      <td>7</td><td>Hardik Singh</td>
+      <td class="edit" contenteditable>9</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>10</td><td class="edit" contenteditable>6</td>
+      <td class="total">58</td>
+    </tr>
+    <tr>
+      <td>8</td><td>Khyati Kumari</td>
+      <td class="edit" contenteditable>10</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>10</td><td class="edit" contenteditable>9</td>
+      <td class="total">61</td>
+    </tr>
+    <tr>
+      <td>9</td><td>Lucky Patel</td>
+      <td class="edit" contenteditable>7</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>6</td>
+      <td class="total">40</td>
+    </tr>
+    <tr>
+      <td>10</td><td>Naitik Verma</td>
+      <td class="edit" contenteditable>8</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>6</td>
+      <td class="total">51</td>
+    </tr>
+    <tr>
+      <td>11</td><td>Nainsi Patel</td>
+      <td class="edit" contenteditable>9</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>10</td><td class="edit" contenteditable>10</td>
+      <td class="total">53</td>
+    </tr>
+    <tr>
+      <td>12</td><td>Palak Singh</td>
+      <td class="edit" contenteditable>8</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>9</td>
+      <td class="total">48</td>
+    </tr>
+    <tr>
+      <td>13</td><td>Piyush</td>
+      <td class="edit" contenteditable>9</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>10</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>0</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>7</td>
+      <td class="total">49</td>
+    </tr>
+    <tr>
+      <td>14</td><td>Pragya Singh</td>
+      <td class="edit" contenteditable>5</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>0</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>0</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>0</td>
+      <td class="total">24</td>
+    </tr>
+    <tr>
+      <td>15</td><td>Ragini Vishwakarma</td>
+      <td class="edit" contenteditable>7</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>9</td>
+      <td class="total">42</td>
+    </tr>
+    <tr>
+      <td>16</td><td>Satyam Singh</td>
+      <td class="edit" contenteditable>5</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>10</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>7</td>
+      <td class="total">51</td>
+    </tr>
+    <tr>
+      <td>17</td><td>Shreya Yadav</td>
+      <td class="edit" contenteditable>6</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>8</td>
+      <td class="total">42</td>
+    </tr>
+    <tr>
+      <td>18</td><td>Srishti Patel</td>
+      <td class="edit" contenteditable>9</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>6</td><td class="edit" contenteditable>9</td><td class="edit" contenteditable>9</td>
+      <td class="total">52</td>
+    </tr>
+    <tr>
+      <td>19</td><td>Sunaina</td>
+      <td class="edit" contenteditable>7</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>5</td><td class="edit" contenteditable>7</td><td class="edit" contenteditable>8</td><td class="edit" contenteditable>9</td>
+      <td class="total">47</td>
+    </tr>
+  </table>
+
+  <div class="print-btn">
+    <button onclick="window.print()">Print</button>
+  </div>
+</div>
+
+<script>
+function calculateTotals(){
+  const rows = document.querySelectorAll('#marksTable tr');
+  rows.forEach((row,i)=>{
+    if(i===0) return;
+    let sum = 0;
+    row.querySelectorAll('td.edit').forEach(td=>{
+      let v = parseInt(td.innerText);
+      if(!isNaN(v)) sum += v;
+    });
+    const totalCell = row.querySelector('.total');
+    if(totalCell) totalCell.innerText = sum;
+  });
+}
+
+document.querySelectorAll('td.edit').forEach(td=>{
+  td.addEventListener('input', calculateTotals);
+});
+
+calculateTotals();
+</script>
+
+</body>
+      </html>
