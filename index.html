@@ -1,161 +1,274 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>MY WORD</title>
-<style>
-  /* Base Styles */
-  body { font-family: sans-serif; background: #f4f4f4; padding: 20px; margin: 0; }
-  .container { 
-    background: #fff; 
-    max-width: 900px; 
-    margin: auto; 
-    padding: 20px; 
-    border-radius: 8px; 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    box-sizing: border-box; /* Crucial for width calculation */
-  }
-  
-  h2 { text-align: center; }
-  .controls { text-align: center; margin-bottom: 20px; }
-  
-  /* Table Styles */
-  table { 
-    width: 100%; 
-    border-collapse: collapse; 
-    table-layout: auto; /* Allows columns to adjust to content */
-    border: 2px solid #000;
-  }
-  
-  th, td { 
-    border: 1px solid #000; 
-    padding: 8px; 
-    text-align: left; 
-    word-wrap: break-word; /* Prevents text from pushing columns out */
-  }
-  
-  th { background: #eee; }
-  .sno-col { width: 50px; text-align: center; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Homework Generator</title>
+    <style>
+        :root { --wa-green: #25D366; --wa-dark: #075E54; }
+        
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            background: #e5ddd5; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            width: 100%;
+            min-height: 100vh;
+        }
 
-  /* Buttons */
-  button { padding: 6px 12px; margin: 3px; cursor: pointer; }
-  .print-btn { background: #28a745; color: white; border: none; font-weight: bold; }
+        .container { 
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            box-sizing: border-box;
+            min-height: 100vh;
+        }
 
-  /* PRINT FIXES - THIS SOLVES THE CUT-OFF PROBLEM */
-  @media print {
-    @page {
-      size: auto;
-      margin: 15mm; /* Standard margin for printers */
-    }
-    body { background: white; padding: 0; }
-    .controls { display: none !important; }
-    
-    .container { 
-      width: 100% !important; 
-      max-width: 100% !important; 
-      margin: 0 !important; 
-      padding: 0 !important; 
-      box-shadow: none !important;
-    }
+        .card { 
+            background: white; 
+            width: 100%; 
+            max-width: 600px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            margin-top: 20px;
+        }
 
-    table { 
-      width: 100% !important; 
-      border: 1px solid black !important;
-      /* Helps the browser fit the table to the paper width */
-      overflow: visible !important;
-    }
+        .header { 
+            background: var(--wa-dark); 
+            color: white; 
+            padding: 16px; 
+            text-align: center; 
+        }
 
-    th, td { 
-      font-size: 10pt; /* Smaller text ensures it fits on paper */
-      border: 1px solid black !important;
-    }
-  }
-</style>
+        .header img {
+            width: 120px;
+        
+            
+            
+        }
+
+        .content { padding: 10px; }
+
+        textarea { 
+            width: 100%; 
+            height: 300px; 
+            border: 2px solid #eee; 
+            border-radius: 8px; 
+            padding: 15px; 
+            font-size: 18px; 
+            box-sizing: border-box; 
+            resize: vertical; 
+            outline: none; 
+            font-weight: 500;
+            line-height: 1.5;
+            background-color: #f9f9f9;
+        }
+
+        textarea:focus {
+            border-color: var(--wa-dark);
+            background-color: #ffffff;
+        }
+
+        .btn-gen { 
+            width: 100%; 
+            background: var(--wa-dark); 
+            color: white; 
+            border: none; 
+            padding: 18px; 
+            border-radius: 8px; 
+            font-weight: bold;
+            cursor: pointer; 
+            margin-top: 15px;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+
+        .btn-share { 
+            position: fixed; 
+            top: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: var(--wa-green); 
+            color: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: none; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        #preview { 
+            width: 100%; 
+            border-radius: 8px; 
+            margin-top: 20px; 
+            display: none; 
+            border: 1px solid #ddd;
+        }
+
+        canvas { display: none; }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <h2 contenteditable="true">Editable Document</h2>
-
-  <div class="controls">
-    <button onclick="addRow()">➕ Row</button>
-    <button onclick="deleteRow()">➖ Row</button>
-    <button onclick="addColumn()">➕ Column</button>
-    <button onclick="deleteColumn()">➖ Column</button>
-    <button onclick="autoRenumber()">🔢 Reset S.No</button>
-    <button class="print-btn" onclick="window.print()">🖨️ Print Now</button>
-  </div>
-
-  <table id="mainTable">
-    <thead>
-      <tr id="headerRow">
-        <th class="sno-col" contenteditable="true">S.No</th>
-        <th contenteditable="true">Header A</th>
-        <th contenteditable="true">Header B</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody">
-      <tr>
-        <td class="sno-col" contenteditable="true">1</td>
-        <td contenteditable="true">Data 1</td>
-        <td contenteditable="true">Data 2</td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="card">
+        <div class="header">
+            
+            <img src="https://i.ibb.co/k61Tv6t5/images.png" alt="Logo" onerror="this.style.display='none'">
+            <h2 style="margin:0">Homework Generator</h2>
+            <p style="margin: 5px 0 0 0; opacity: 0.8; font-size: 14px;">Create clear assignment images</p>
+        </div>
+        <div class="content">
+            <textarea id="hwInput" placeholder="Type your tasks here...&#10;• Math Page 20&#10;• Read Chapter 3"></textarea>
+            <button class="btn-gen" onclick="generateImage()">GENERATE PNG IMAGE</button>
+            <img id="preview">
+        </div>
+    </div>
 </div>
 
+<button id="shareBtn" class="btn-share" onclick="shareImage()">
+    <span style="font-size: 24px;">➔</span>
+    <span style="font-size: 10px; font-weight: bold;">SHARE</span>
+</button>
+
+<canvas id="hwCanvas"></canvas>
+
 <script>
-const tableBody = document.getElementById('tableBody');
-const headerRow = document.getElementById('headerRow');
+    let sharedBlob = null;
 
-function addRow() {
-  const colCount = headerRow.cells.length;
-  const newRow = document.createElement('tr');
-  const nextNum = tableBody.rows.length + 1;
+    function getWrappedLines(ctx, text, maxWidth) {
+        const words = text.split(" ");
+        const lines = [];
+        let currentLine = words[0];
 
-  for (let i = 0; i < colCount; i++) {
-    const newCell = document.createElement('td');
-    newCell.contentEditable = true;
-    if (i === 0) {
-      newCell.className = 'sno-col';
-      newCell.innerText = nextNum;
+        for (let i = 1; i < words.length; i++) {
+            let word = words[i];
+            let width = ctx.measureText(currentLine + " " + word).width;
+            if (width < maxWidth) {
+                currentLine += " " + word;
+            } else {
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        lines.push(currentLine);
+        return lines;
     }
-    newRow.appendChild(newCell);
-  }
-  tableBody.appendChild(newRow);
-}
 
-function deleteRow() {
-  if (tableBody.rows.length > 0) tableBody.deleteRow(-1);
-}
+    async function generateImage() {
+        const canvas = document.getElementById('hwCanvas');
+        const ctx = canvas.getContext('2d');
+        const rawText = document.getElementById('hwInput').value;
+        if(!rawText.trim()) { alert("Please enter some text"); return; }
 
-function addColumn() {
-  const th = document.createElement('th');
-  th.contentEditable = true;
-  th.innerText = "New Head";
-  headerRow.appendChild(th);
+        // --- Logo Handling ---
+        // --- Logo Handling ---
+        const logo = new Image();
+        // Allow cross-origin loading so the canvas can export the image
+        logo.crossOrigin = "anonymous"; 
+        logo.src = "https://i.ibb.co/k61Tv6t5/images.png"; 
+        
+        // Wait for image to load before drawing
+        await new Promise((resolve) => {
+            logo.onload = () => resolve();
+            logo.onerror = () => {
+                console.error("Logo failed to load from URL.");
+                resolve();
+            };
+        });
 
-  Array.from(tableBody.rows).forEach(row => {
-    const td = document.createElement('td');
-    td.contentEditable = true;
-    row.appendChild(td);
-  });
-}
+        const inputLines = rawText.split('\n').filter(l => l.trim() !== "");
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const dateStr = new Date().toLocaleDateString(undefined, options);
 
-function deleteColumn() {
-  if (headerRow.cells.length > 1) {
-    headerRow.deleteCell(-1);
-    Array.from(tableBody.rows).forEach(row => row.deleteCell(-1));
-  }
-}
+        const maxWidth = 700; 
+        ctx.font = "bold 30px Arial";
+        
+        let allWrappedLines = [];
+        inputLines.forEach(l => {
+            const wrapped = getWrappedLines(ctx, l, maxWidth);
+            allWrappedLines = allWrappedLines.concat(wrapped);
+        });
 
-function autoRenumber() {
-  Array.from(tableBody.rows).forEach((row, index) => {
-    row.cells[0].innerText = index + 1;
-  });
-}
+        // Header Settings
+        const headerHeight = 200; 
+        const lineHeight = 50; 
+        const padding = 60;
+        
+        canvas.width = 800;
+        canvas.height = headerHeight + (allWrappedLines.length * lineHeight) + padding;
+
+        // Draw Background
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw Header Box
+        ctx.fillStyle = "#075E54";
+        ctx.fillRect(0, 0, canvas.width, headerHeight);
+        
+        // Draw Logo inside Header (Center top)
+        if (logo.complete && logo.naturalWidth !== 0) {
+            const logoW = 106;
+            
+            const logoH = (logo.naturalHeight / logo.naturalWidth) * logoW;
+            ctx.drawImage(logo, (canvas.width / 2) - (logoW / 2), 0, logoW, logoH);
+        }
+
+        // Draw Header Text
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.font = "bold 42px Arial";
+        ctx.fillText("Today's Homework", canvas.width / 2, 140);
+        
+        ctx.font = "22px Arial";
+        ctx.fillText(dateStr, canvas.width / 2, 175);
+
+        // Draw Homework Text
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#000000"; 
+        ctx.font = "bold 30px Arial"; 
+        let y = headerHeight + 60;
+        
+        allWrappedLines.forEach(line => {
+            ctx.fillText(line, 50, y);
+            y += lineHeight;
+        });
+
+        // Export to Blob
+        canvas.toBlob((blob) => {
+            sharedBlob = blob;
+            const preview = document.getElementById('preview');
+            preview.src = URL.createObjectURL(blob);
+            preview.style.display = "block";
+            document.getElementById('shareBtn').style.display = "flex";
+            preview.scrollIntoView({ behavior: 'smooth' });
+        }, 'image/png');
+    }
+
+    async function shareImage() {
+        if (!sharedBlob) return;
+        const file = new File([sharedBlob], 'homework.png', { type: 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try { 
+                await navigator.share({ 
+                    files: [file], 
+                    title: 'Today\'s Homework',
+                    text: 'Check out today\'s assignments.'
+                }); 
+            } catch (err) { console.log("Share cancelled"); }
+        } else {
+            alert("Your browser doesn't support direct sharing. Please long-press the image to save.");
+        }
+    }
 </script>
 
 </body>
 </html>
+
